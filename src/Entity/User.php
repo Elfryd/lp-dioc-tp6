@@ -12,13 +12,48 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface, \Serializable
 {
-    private $id;
-    private $email;
-    private $firstname;
-    private $lastname;
-    private $password;
-    private $isAuthor = false;
-    private $articles;
+    /**
+     * @var int
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    protected $id;
+    /**
+     * @var string
+     * @ORM\Column(type="string",length=40)
+     */
+    protected $email;
+    /**
+     * @var string
+     * @ORM\Column(type="string",length=40)
+     */
+    protected $firstname;
+    /**
+     * @var string
+     * @ORM\Column(type="string",length=40)
+     */
+    protected $lastname;
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $password;
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    protected $isAuthor = false;
+    /**
+     * @var Article[]
+     * @ORM\OneToMAny(targetEntity="Article",mappedBy="user")
+     */
+    protected $articles;
+
+    public function __construct()
+    {
+        $this->articles = new ArrayCollection();
+    }
 
     // Fixme
 
@@ -72,8 +107,103 @@ class User implements UserInterface, \Serializable
         ) = unserialize($serialized);
     }
 
-    public function getPassword()
+    /**
+     * @return string
+     */
+    public function getPassword(): string
     {
         return $this->password;
     }
+
+    /**
+     * @param string $password
+     */
+    public function setPassword(string $password)
+    {
+        $this->password = $password;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail(string $email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstname(): string
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * @param string $firstname
+     */
+    public function setFirstname(string $firstname)
+    {
+        $this->firstname = $firstname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastname(): string
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * @param string $lastname
+     */
+    public function setLastname(string $lastname)
+    {
+        $this->lastname = $lastname;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isAuthor(): bool
+    {
+        return $this->isAuthor;
+    }
+
+    /**
+     * @param boolean $isAuthor
+     */
+    public function setIsAuthor(bool $isAuthor)
+    {
+        $this->isAuthor = $isAuthor;
+    }
+
+    /**
+     * @return Article[]
+     */
+    public function getArticles(): array
+    {
+        return $this->articles;
+    }
+
+    /**
+     * @param Article[] $articles
+     */
+    public function setArticles(array $articles)
+    {
+        $this->articles = $articles;
+    }
+
+
+
+
 }
