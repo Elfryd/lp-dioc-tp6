@@ -43,7 +43,7 @@ class Article
      */
     protected $countView = 0;
     /**
-     * @var string
+     * @var Tag
      * @ORM\ManyToMany(targetEntity="Tag")
      */
     protected $tags;
@@ -59,9 +59,17 @@ class Article
     protected $createdAt;
 
     /**
+     * Article constructor.
+     */
+    public function __construct()
+    {
+        $this->tags = new ArrayCollection();
+    }
+
+    /**
      * @return int
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
@@ -69,7 +77,7 @@ class Article
     /**
      * @return string
      */
-    public function getTitle(): string
+    public function getTitle()
     {
         return $this->title;
     }
@@ -85,7 +93,7 @@ class Article
     /**
      * @return string
      */
-    public function getSlug(): string
+    public function getSlug()
     {
         return $this->slug;
     }
@@ -101,7 +109,7 @@ class Article
     /**
      * @return string
      */
-    public function getContent(): string
+    public function getContent()
     {
         return $this->content;
     }
@@ -117,7 +125,7 @@ class Article
     /**
      * @return User
      */
-    public function getAuthor(): User
+    public function getAuthor()
     {
         return $this->author;
     }
@@ -133,7 +141,7 @@ class Article
     /**
      * @return int
      */
-    public function getCountView(): int
+    public function getCountView()
     {
         return $this->countView;
     }
@@ -149,7 +157,7 @@ class Article
     /**
      * @return string
      */
-    public function getTags(): string
+    public function getTags()
     {
         return $this->tags;
     }
@@ -165,7 +173,7 @@ class Article
     /**
      * @return \DateTime
      */
-    public function getUpdatedAt(): \DateTime
+    public function getUpdatedAt()
     {
         return $this->updatedAt;
     }
@@ -181,7 +189,7 @@ class Article
     /**
      * @return \DateTime
      */
-    public function getCreatedAt(): \DateTime
+    public function getCreatedAt()
     {
         return $this->createdAt;
     }

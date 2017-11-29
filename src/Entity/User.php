@@ -46,7 +46,7 @@ class User implements UserInterface, \Serializable
     protected $isAuthor = false;
     /**
      * @var Article[]
-     * @ORM\OneToMAny(targetEntity="Article",mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Article",mappedBy="user")
      */
     protected $articles;
 
@@ -179,12 +179,9 @@ class User implements UserInterface, \Serializable
         return $this->isAuthor;
     }
 
-    /**
-     * @param boolean $isAuthor
-     */
-    public function setIsAuthor(bool $isAuthor)
+    public function setAuthor()
     {
-        $this->isAuthor = $isAuthor;
+        $this->isAuthor = !$this->isAuthor;
     }
 
     /**

@@ -2,6 +2,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
+    max_article: '%env(MAX_ARTICLE)%'
 
 services:
     # default configuration for services in *this* file
@@ -27,3 +28,15 @@ services:
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
+    App\Article\ArticleFetcher:
+        public: true
+        autowire: true
+    App\Article\ArticleStatsLogger:
+        public: true
+        autowire: true
+    App\Article\NewArticleHandler:
+        public: true
+        autowire: true
+    App\Article\UpdateArticleHandler:
+        public: true
+        autowire: true

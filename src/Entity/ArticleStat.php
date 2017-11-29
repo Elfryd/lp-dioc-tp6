@@ -26,7 +26,7 @@ class ArticleStat
      */
     protected $action;
     /**
-     * @var string
+     * @var Article
      * @ORM\OneToOne(targetEntity="Article")
      */
     protected $article; //OneToOne
@@ -51,15 +51,13 @@ class ArticleStat
      * @param string $action
      * @param string $article
      * @param \DateTime $date
-     * @param string $ip
      * @param User $user
      */
-    public function __construct($action, $article, \DateTime $date, $ip, User $user)
+    public function __construct($action,Article $article, \DateTime $date, User $user)
     {
         $this->action = $action;
         $this->article = $article;
         $this->date = $date;
-        $this->ip = $ip;
         $this->user = $user;
     }
 

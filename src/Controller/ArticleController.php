@@ -28,16 +28,42 @@ class ArticleController extends Controller
     /**
      * @Route(path="/new", name="article_new")
      */
-    public function newAction()
+    public function newAction(Request $request, NewArticleHandler $newArticleHandler)
     {
+        $article = new Article();
+        $form = $this->createForm(ArticleType::class, $article);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $user = $this->get('security.token_storage')->getToken()->getUser();
+            $newArticleHandler->handle($article,$user);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($article);
+            $em->flush();
+            return $this->redirectToRoute('homepage');
+        }
+        return $this->render('Article/new.html.twig',array('form' => $form->createView()));
         // Seul les auteurs doivent avoir access.
     }
 
     /**
      * @Route(path="/update/{slug}", name="article_update")
      */
-    public function updateAction()
+    public function updateAction($slug, Request $request, UpdateArticleHandler $updateArticleHandler)
     {
+        $article = $this->getDoctrine()->getRepository(Article::class)->findOneBy(array('slug' => $slug));
+        $form = $this->createForm(ArticleType::class, $article);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $user = $this->get('security.token_storage')->getToken()->getUser();
+            $updateArticleHandler->handle($article,$user);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($article);
+            $em->flush();
+            return $this->redirectToRoute('homepage');
+        }
+        return $this->render('Article/update.html.twig',array('form' => $form->createView()));
         // Seul les auteurs doivent avoir access.
         // Seul l'auteur de l'article peut le modifier
     }
